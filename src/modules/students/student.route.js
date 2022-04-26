@@ -110,10 +110,10 @@ export default (app) => {
     }
   });
 
-  route.all("/alumnos/:id", async (req, res, next) => {
+  route.all("/:id", async (req, res, next) => {
     return res.status(405);
   });
-  route.all("/alumnos", async (req, res, next) => {
+  route.all("/", async (req, res, next) => {
     return res.status(405);
   });
 };
