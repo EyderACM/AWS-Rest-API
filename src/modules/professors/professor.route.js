@@ -109,10 +109,14 @@ export default (app) => {
       professors = professors.filter(
         (professor) => professor.id !== parseInt(professorId)
       );
-      return res.status(201).json({ professorId });
+      return res.status(200).json({ professorId });
     } catch (e) {
       logger.error("🔥 error: %o", e);
       return next(e);
     }
+  });
+
+  route.delete("/profesores", async (req, res, next) => {
+    return res.status(405);
   });
 };

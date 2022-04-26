@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import routes from "../modules/routes";
+import { errors } from "celebrate";
 
 export default ({ app }) => {
   /**
@@ -21,6 +22,8 @@ export default ({ app }) => {
   app.use(express.json());
 
   app.use("/", routes());
+
+  app.use(errors());
 
   /// catch 404 and forward to error handler
   app.use((req, res, next) => {
