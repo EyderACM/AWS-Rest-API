@@ -119,4 +119,7 @@ export default (app) => {
   route.all("/profesores/:id", async (req, res, next) => {
     return res.status(405);
   });
+  route.all("/profesores", async (req, res, next) => {
+    return res.status(405);
+  });
 };
