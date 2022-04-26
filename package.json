@@ -2,8 +2,10 @@
   "name": "aws-rest-api",
   "version": "1.0.0",
   "description": "A school CRUD rest API",
+  "repository": "https://github.com/EyderACM/AWS-Rest-API",
   "main": "index.js",
   "scripts": {
+    "build": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Eyder",
