@@ -87,7 +87,7 @@ export default (app) => {
           (professor) => professor.id !== parseInt(professorId)
         );
         professors.push(updatedProfessor);
-        return res.status(201).json({ professor: updatedProfessor });
+        return res.status(200).json({ professor: updatedProfessor });
       } catch (e) {
         logger.error("🔥 error: %o", e);
         return next(e);
@@ -114,10 +114,6 @@ export default (app) => {
       logger.error("🔥 error: %o", e);
       return next(e);
     }
-  });
-
-  route.delete("/alumnos", async (req, res, next) => {
-    return res.status(405);
   });
 
   route.delete("/", async (req, res, next) => {
