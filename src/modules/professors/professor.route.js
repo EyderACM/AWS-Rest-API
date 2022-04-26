@@ -116,7 +116,7 @@ export default (app) => {
     }
   });
 
-  route.delete("/profesores", async (req, res, next) => {
+  route.all("/profesores/:id", async (req, res, next) => {
     return res.status(405);
   });
 };
