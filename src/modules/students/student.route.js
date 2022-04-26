@@ -111,6 +111,6 @@ export default (app) => {
   });
 
   route.delete("/", async (req, res, next) => {
-    return res.status(405);
+    return res.status(405).json({});
   });
 };
