@@ -103,17 +103,18 @@ export default (app) => {
       students = students.filter(
         (student) => student.id !== parseInt(studentId)
       );
-      return res.status(20).json({ studentId });
+      return res.status(200).json({ studentId });
     } catch (e) {
       logger.error("🔥 error: %o", e);
       return next(e);
     }
   });
 
-  route.all("/:id", async (req, res, next) => {
+  route.delete("/alumnos", async (req, res, next) => {
     return res.status(405);
   });
-  route.all("/", async (req, res, next) => {
+
+  route.delete("/", async (req, res, next) => {
     return res.status(405);
   });
 };

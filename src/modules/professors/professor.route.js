@@ -116,10 +116,11 @@ export default (app) => {
     }
   });
 
-  route.all("/:id", async (req, res, next) => {
+  route.delete("/alumnos", async (req, res, next) => {
     return res.status(405);
   });
-  route.all("/", async (req, res, next) => {
+
+  route.delete("/", async (req, res, next) => {
     return res.status(405);
   });
 };
