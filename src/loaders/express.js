@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import routes from "../modules/routes";
 
 export default ({ app }) => {
   /**
@@ -18,6 +19,8 @@ export default ({ app }) => {
 
   // Transforms the raw string of req.body into json
   app.use(express.json());
+
+  app.use("/", routes());
 
   /// catch 404 and forward to error handler
   app.use((req, res, next) => {
