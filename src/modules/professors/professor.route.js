@@ -1,11 +1,10 @@
 import { Router } from "express";
 import { celebrate } from "celebrate";
 import { Container } from "typedi";
-import professor from "./professor.model";
+import professorSchema from "./professor.schema";
+import Professor from './professor.model'
 
 const route = Router();
-
-let professors = [];
 
 export default (app) => {
   app.use("/profesores", route);
@@ -14,6 +13,10 @@ export default (app) => {
     const logger = Container.get("logger");
     logger.debug("Calling Getting all professors endpoint");
     try {
+      const professors = await Professor.findAll()
+
+      if(!professors) return res.status(404).json({ message: 'No professors found' })
+
       return res.json(professors).status(200);
     } catch (error) {
       logger.error("🔥 error: %o", e);
@@ -29,11 +32,10 @@ export default (app) => {
     );
     try {
       const { id: professorId } = req.params;
-      const professor = professors.find(
-        (professor) => professor.id === parseInt(professorId)
-      );
+      const professor = await Professor.findByPk(professorId)
       if (!professor)
         return res.status(404).json({ status: "professor not found" });
+
       return res.status(200).json(professor);
     } catch (error) {
       logger.error("🔥 error: %o", e);
@@ -44,7 +46,7 @@ export default (app) => {
   route.post(
     "/",
     celebrate({
-      body: professor,
+      body: professorSchema,
     }),
     async (req, res, next) => {
       const logger = Container.get("logger");
@@ -54,7 +56,9 @@ export default (app) => {
       );
       try {
         const professor = req.body;
-        professors.push(professor);
+        
+        await Professor.create(professor)
+
         return res.status(201).json({ professor });
       } catch (e) {
         logger.error("🔥 error: %o", e);
@@ -66,7 +70,7 @@ export default (app) => {
   route.put(
     "/:id",
     celebrate({
-      body: professor,
+      body: professorSchema,
     }),
     async (req, res, next) => {
       const logger = Container.get("logger");
@@ -77,16 +81,9 @@ export default (app) => {
       try {
         const { id: professorId } = req.params;
         const updatedProfessor = req.body;
-        const professor = professors.find(
-          (professor) => professor.id === parseInt(professorId)
-        );
-        if (!professor)
-          return res.status(404).json({ status: "professor not found" });
 
-        professors = professors.filter(
-          (professor) => professor.id !== parseInt(professorId)
-        );
-        professors.push(updatedProfessor);
+        await Professor.update(updatedProfessor, { where: { id: professorId } })
+        
         return res.status(200).json({ professor: updatedProfessor });
       } catch (e) {
         logger.error("🔥 error: %o", e);
@@ -100,16 +97,13 @@ export default (app) => {
     logger.debug("Calling Creating professor endpoint with body: %o", req.body);
     try {
       const { id: professorId } = req.params;
-      const professor = professors.find(
-        (professor) => professor.id === parseInt(professorId)
-      );
-      if (!professor)
-        return res.status(404).json({ status: "professor not found" });
+      const professor = await Professor.destroy({ where: { id: professorId } })
 
-      professors = professors.filter(
-        (professor) => professor.id !== parseInt(professorId)
-      );
-      return res.status(200).json({ professorId });
+      if(!professor){
+        return res.status(404).json({ message: 'Professor not found' })
+      }
+
+      return res.status(200).json({ professor });
     } catch (e) {
       logger.error("🔥 error: %o", e);
       return next(e);

@@ -1,11 +1,28 @@
-import { Joi } from "celebrate";
+import { DataTypes } from "sequelize";
+import { sequelize } from "../../config/index";
 
-const professor = Joi.object({
-  id: Joi.number().required(),
-  nombres: Joi.string().required(),
-  apellidos: Joi.string().required(),
-  numeroEmpleado: Joi.number().required(),
-  horasClase: Joi.number().required(),
+const professor = sequelize.define("Professor", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  nombres: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  apellidos: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  numeroEmpleado: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  horasClase: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 });
 
 export default professor;
