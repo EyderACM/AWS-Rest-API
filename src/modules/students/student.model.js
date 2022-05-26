@@ -1,5 +1,21 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "../../config/index";
+import { Sequelize } from "sequelize";
+import config from "../../config";
+
+// TODO - Migrate to own
+const sequelize = new Sequelize(
+  config.db.name,
+  config.db.username,
+  config.db.password,
+  {
+    host: config.db.host,
+    port: config.db.port,
+    dialect: "mysql",
+    dialectOptions: {
+      ssl: "Amazon RDS",
+    },
+  }
+);
 
 const student = sequelize.define("Student", {
   id: {
